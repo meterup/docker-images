@@ -8,6 +8,22 @@ Debian image uses 2.28.
 We also use envdir to standardize environment variables before loading Go
 programs and installing that every time you want to build something is annoying.
 
+### Build
+
+To build and tag `meterup/ubuntu-golang:latest`:
+
+```
+make build-latest
+```
+
+or whatever Go version we have hardcoded in the Dockerfile:
+
+```
+make release
+```
+
+You will need to have valid Docker credentials to upload to Docker Hub.
+
 ### TODO
 
 Port over the `update.sh` stuff to verify and update the checksums.
