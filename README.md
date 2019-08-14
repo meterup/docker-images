@@ -8,6 +8,8 @@ Debian image uses 2.28.
 We also use envdir to standardize environment variables before loading Go
 programs and installing that every time you want to build something is annoying.
 
+The upstream repository is docker-library/golang.
+
 ### Build
 
 To build and tag `meterup/ubuntu-golang:latest`:
