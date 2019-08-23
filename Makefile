@@ -1,3 +1,6 @@
+build-scratch:
+	docker build .
+
 build-latest:
 	docker build -t meterup/ubuntu-golang:latest .
 
