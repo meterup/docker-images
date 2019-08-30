@@ -3,7 +3,8 @@
 # with an MIT license.
 
 FROM ubuntu:18.04
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y apt-transport-https && \
+    apt-get install -y --no-install-recommends \
         daemontools \
         time \
         g++ \
