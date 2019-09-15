@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
         time \
         g++ \
         gcc \
+        git \
         libc6-dev \
         make \
         pkg-config \
