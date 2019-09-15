@@ -3,6 +3,11 @@
 # with an MIT license.
 
 FROM ubuntu:18.04
+
+# git: we need for github.com/kevinburke/differ
+# openssh-client: apmanage generates SSH keys
+# time: reporting command execution time
+# daemontools: envdir
 RUN apt-get update && apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends \
         daemontools \
@@ -10,6 +15,7 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
         g++ \
         gcc \
         git \
+        openssh-client \
         libc6-dev \
         make \
         pkg-config \
