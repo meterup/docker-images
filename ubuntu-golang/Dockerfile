@@ -4,6 +4,10 @@
 
 FROM ubuntu:18.04
 
+ADD sources.list /etc/apt/sources.list
+
+ENV DEBIAN_FRONTEND noninteractive
+
 # git: we need for github.com/kevinburke/differ
 # openssh-client: apmanage generates SSH keys
 # time: reporting command execution time
@@ -11,17 +15,23 @@ FROM ubuntu:18.04
 RUN apt-get update && apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends \
         daemontools \
+        gnupg \
         time \
         g++ \
         gcc \
         git \
+        less \
         openssh-client \
         libc6-dev \
         make \
         pkg-config \
         curl \
-        ca-certificates \
-        && rm -rf /var/lib/apt/lists/*
+        ca-certificates && \
+        curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+        echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
+        apt-get update && \
+        apt-get install -y --no-install-recommends postgresql postgresql-client && \
+        rm -rf /var/lib/apt/lists/*
 
 ENV GOLANG_VERSION 1.13.1
 
