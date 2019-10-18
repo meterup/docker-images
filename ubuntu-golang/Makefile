@@ -8,9 +8,9 @@ upload-latest:
 	docker push meterup/ubuntu-golang:latest
 
 build:
-	docker build -t meterup/ubuntu-golang:1.13.2 .
+	docker build -t meterup/ubuntu-golang:1.13.3 .
 
 upload:
-	docker push meterup/ubuntu-golang:1.13.2
+	docker push meterup/ubuntu-golang:1.13.3
 
 release: build upload
