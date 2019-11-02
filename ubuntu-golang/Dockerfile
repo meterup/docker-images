@@ -34,14 +34,14 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
         apt-get install -y --no-install-recommends postgresql postgresql-client && \
         rm -rf /var/lib/apt/lists/*
 
-ENV GOLANG_VERSION 1.13.3
+ENV GOLANG_VERSION 1.13.4
 
 RUN set -eux; \
     \
     dpkgArch="$(dpkg --print-architecture)"; \
     case "${dpkgArch##*-}" in \
     # Get the checksum from https://golang.org/dl/, linux-amd64
-        amd64) goRelArch='linux-amd64'; goRelSha256='0804bf02020dceaa8a7d7275ee79f7a142f1996bfd0c39216ccb405f93f994c0' ;; \
+        amd64) goRelArch='linux-amd64'; goRelSha256='692d17071736f74be04a72a06dab9cac1cd759377bd85316e52b2227604c004c' ;; \
     esac; \
     \
     url="https://golang.org/dl/go${GOLANG_VERSION}.${goRelArch}.tar.gz"; \
