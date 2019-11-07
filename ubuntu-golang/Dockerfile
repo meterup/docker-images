@@ -14,20 +14,21 @@ ENV DEBIAN_FRONTEND noninteractive
 # daemontools: envdir
 RUN apt-get update && apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
         daemontools \
-        gnupg \
-        time \
-        sudo \
         g++ \
         gcc \
         git \
+        gnupg \
         less \
-        openssh-client \
         libc6-dev \
         make \
+        openssh-client \
         pkg-config \
-        curl \
-        ca-certificates && \
+        sudo \
+        time \
+        unzip && \
         curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
         echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
         apt-get update && \
