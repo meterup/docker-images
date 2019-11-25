@@ -2,7 +2,8 @@
 # github.com/docker-library/golang. The source code for that project is released
 # with an MIT license.
 
-FROM ubuntu:18.04
+# https://hub.docker.com/_/ubuntu
+FROM ubuntu:bionic-20191029
 
 ADD sources.list /etc/apt/sources.list
 
@@ -28,12 +29,13 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
         pkg-config \
         sudo \
         time \
-        unzip && \
-        curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-        echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
-        apt-get update && \
-        apt-get install -y --no-install-recommends postgresql postgresql-client && \
-        rm -rf /var/lib/apt/lists/*
+        unzip \
+        && \
+    curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends postgresql postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV GOLANG_VERSION 1.13.4
 
