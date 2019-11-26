@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
     curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends postgresql postgresql-client && \
+    apt-get install -y --no-install-recommends postgresql-11 postgresql-client-11 && \
     rm -rf /var/lib/apt/lists/*
 
 ENV GOLANG_VERSION 1.13.4
