@@ -6,55 +6,46 @@
 FROM ubuntu:bionic-20191029
 
 ADD sources.list /etc/apt/sources.list
+COPY bin /tmp/bin
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV CONTAINER_BUILD_DATE 2019-12-03T14:00:00
 
 # git: we need for github.com/kevinburke/differ
 # openssh-client: apmanage generates SSH keys
 # time: reporting command execution time
 # daemontools: envdir
+# gettext,lib*-dev, zlib1g-dev: git
 RUN apt-get update && apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends \
+        autoconf \
         ca-certificates \
         curl \
         daemontools \
         g++ \
         gcc \
-        git \
+        gettext \
         gnupg \
         less \
         libc6-dev \
+        libcurl4-openssl-dev \
+        libexpat1-dev \
+        libssl-dev \
         make \
         openssh-client \
         pkg-config \
         sudo \
         time \
         unzip \
+        zlib1g-dev \
         && \
+    /tmp/bin/compile-git && \
     curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends postgresql-11 postgresql-client-11 && \
+    /tmp/bin/compile-go && \
     rm -rf /var/lib/apt/lists/*
-
-ENV GOLANG_VERSION 1.13.4
-
-RUN set -eux; \
-    \
-    dpkgArch="$(dpkg --print-architecture)"; \
-    case "${dpkgArch##*-}" in \
-    # Get the checksum from https://golang.org/dl/, linux-amd64
-        amd64) goRelArch='linux-amd64'; goRelSha256='692d17071736f74be04a72a06dab9cac1cd759377bd85316e52b2227604c004c' ;; \
-    esac; \
-    \
-    url="https://golang.org/dl/go${GOLANG_VERSION}.${goRelArch}.tar.gz"; \
-    curl --location --output go.tgz "$url"; \
-    echo "${goRelSha256} *go.tgz" | sha256sum -c -; \
-    tar -C /usr/local -xzf go.tgz; \
-    rm go.tgz; \
-    \
-    export PATH="/usr/local/go/bin:$PATH"; \
-    go version
 
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
