@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
         less \
         libc6-dev \
         libcurl4-openssl-dev \
-        libexpat1-dev \
         libssl-dev \
         make \
         openssh-client \
@@ -45,6 +44,8 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
     apt-get update && \
     apt-get install -y --no-install-recommends postgresql-11 postgresql-client-11 && \
     /tmp/bin/compile-go && \
+    apt-get remove -y --purge autoconf gettext libssl-dev libcurl4-openssl-dev zlib1g-dev && \
+    apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
 ENV GOPATH /go
