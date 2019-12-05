@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+main() {
+    apt-get update
+    apt-get install -y apt-transport-https
+    # git: we need for github.com/kevinburke/differ
+    # gettext,lib*-dev, zlib1g-dev: git
+    # openssh-client: apmanage generates SSH keys
+    # time: reporting command execution time
+    # daemontools: envdir
+    apt-get install -y --no-install-recommends \
+        autoconf \
+        ca-certificates \
+        curl \
+        daemontools \
+        g++ \
+        gcc \
+        gettext \
+        gnupg \
+        less \
+        libc6-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        make \
+        openssh-client \
+        pkg-config \
+        sudo \
+        time \
+        unzip \
+        zlib1g-dev
+    /tmp/bin/compile-go "${GOLANG_VERSION}" "${GOLANG_SHA256}"
+    /tmp/bin/compile-git "${GIT_VERSION}"
+    curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
+    apt-get update
+    apt-get install -y --no-install-recommends postgresql-11 postgresql-client-11
+    apt-get remove -y --purge autoconf gettext libssl-dev libcurl4-openssl-dev zlib1g-dev
+    apt-get autoremove -y
+    rm -rf /var/lib/apt/lists/*
+}
+
+main "$@"

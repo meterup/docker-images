@@ -2,11 +2,11 @@
 
 set -euo pipefail
 
-VERSION='2.24.0'
-BINARY="v${VERSION}.zip"
-DIRECTORY="git-${VERSION}"
-
 main() {
+    local -r VERSION="$1"
+    local -r BINARY="v${VERSION}.zip"
+    local -r DIRECTORY="git-${VERSION}"
+
     pushd /tmp 2>/dev/null
         if [[ ! -f "$BINARY" ]]; then
             curl --remote-name --silent --location "https://github.com/git/git/archive/${BINARY}"

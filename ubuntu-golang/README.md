@@ -29,3 +29,7 @@ You will need to have valid Docker credentials to upload to Docker Hub.
 ### TODO
 
 Port over the `update.sh` stuff to verify and update the checksums.
+
+## Metrics
+
+As of December 4, 2019 the build takes 4 minutes, 10 seconds.
