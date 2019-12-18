@@ -13,9 +13,9 @@ ENV TZ UTC
 
 # Get the GOLANG_SHA256 checksum from https://golang.org/dl/, linux-amd64
 RUN DEBIAN_FRONTEND=noninteractive \
-    GOLANG_VERSION=1.13.5 \
-    GOLANG_SHA256=512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569 \
-    GIT_VERSION=2.24.0 \
+    GOLANG_VERSION=1.14beta1 \
+    GOLANG_SHA256=ebe68aa4219b673dbd060b8a6d9a339b6b6b0383772aa4349c8183f0a8f339e4 \
+    GIT_VERSION=2.24.1 \
     /tmp/bin/install-dependencies
 
 ENV GOPATH /go
