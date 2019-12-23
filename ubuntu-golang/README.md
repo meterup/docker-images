@@ -10,6 +10,12 @@ programs and installing that every time you want to build something is annoying.
 
 The upstream repository is docker-library/golang.
 
+### Binary size
+
+The largest things in the binary are Go (about 347MB unpacked) and Git (about
+130MB unpacked). Unfortunately there's not much we can do about either - we need
+both and there's not an obvious solution to making either smaller.
+
 ### Build
 
 To build and tag `meterup/ubuntu-golang:latest`:

@@ -4,7 +4,7 @@ set -euo pipefail
 
 main() {
     apt-get update
-    apt-get install -y apt-transport-https
+    apt-get install -y --no-install-recommends apt-transport-https
     # git: we need for github.com/kevinburke/differ
     # gettext,lib*-dev, zlib1g-dev: git
     # openssh-client: apmanage generates SSH keys
@@ -32,12 +32,15 @@ main() {
         zlib1g-dev
     /tmp/bin/compile-go "${GOLANG_VERSION}" "${GOLANG_SHA256}"
     /tmp/bin/compile-git "${GIT_VERSION}"
+    curl --silent https://packagecloud.io/install/repositories/meter/public/script.deb.sh | sudo bash
     curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
     echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
     apt-get update
     apt-get install -y --no-install-recommends postgresql-11 postgresql-client-11
-    apt-get remove -y --purge autoconf gettext libssl-dev libcurl4-openssl-dev zlib1g-dev
+    local -r auto_packages=$(apt-mark showauto)
+    apt-get remove -y --purge ${auto_packages} autoconf gettext libssl-dev libcurl4-openssl-dev zlib1g-dev
     apt-get autoremove -y
+    apt-get clean
     rm -rf /var/lib/apt/lists/*
 }
 
