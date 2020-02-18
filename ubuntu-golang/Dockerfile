@@ -16,9 +16,9 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
 # Get the GOLANG_SHA256 checksum from https://golang.org/dl/, linux-amd64
 RUN DEBIAN_FRONTEND=noninteractive \
-    GOLANG_VERSION=1.14beta1 \
-    GOLANG_SHA256=ebe68aa4219b673dbd060b8a6d9a339b6b6b0383772aa4349c8183f0a8f339e4 \
-    GIT_VERSION=2.25.0 \
+    GOLANG_VERSION=1.14rc1 \
+    GOLANG_SHA256=69398d41e5f6b87cdf3969aae665be4dfd3cc2ef36a61ab47a261f96130ed788 \
+    GIT_VERSION=2.25.1 \
     /tmp/bin/install-dependencies && \
     mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
