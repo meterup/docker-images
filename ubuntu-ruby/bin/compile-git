@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+main() {
+    local -r VERSION="$1"
+    local -r BINARY="v${VERSION}.zip"
+    local -r DIRECTORY="git-${VERSION}"
+
+    pushd /tmp 2>/dev/null
+        if [[ ! -f "$BINARY" ]]; then
+            curl --remote-name --silent --location "https://github.com/git/git/archive/${BINARY}"
+        fi
+        unzip -q "$BINARY"
+        pushd "${DIRECTORY}" 2>/dev/null
+            # https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+            make configure
+            ./configure --prefix=/usr/local/git --without-expat --without-tcltk
+            make all
+            make install
+        popd
+        rm -rf "${BINARY}" "${DIRECTORY}"
+        ls -lah
+    popd
+}
+
+main "$@"
