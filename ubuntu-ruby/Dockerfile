@@ -9,5 +9,3 @@ RUN DEBIAN_FRONTEND=noninteractive \
     RUBY_VERSION='2.7.0' \
     RUBY_PATH='/usr/local/ruby' \
     /tmp/bin/install-ruby
-
-FROM ubuntu:bionic-20200112

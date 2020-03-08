@@ -6,7 +6,8 @@ main() {
     # Some adaptations from https://github.com/drecom/docker-ubuntu-ruby/blob/master/Dockerfile
     # MIT Licensed.
     apt-get update && apt-get install -y \
-        curl unzip make autoconf gcc zlib1g-dev gettext libssl-dev
+        curl unzip make autoconf gcc zlib1g-dev gettext libssl-dev \
+        libcurl4-openssl-dev g++
     /tmp/bin/compile-git "${GIT_VERSION}"
     export PATH="/usr/local/git/bin:${PATH}"
     git clone git://github.com/rbenv/ruby-build.git "${RUBY_PATH}/plugins/ruby-build"
