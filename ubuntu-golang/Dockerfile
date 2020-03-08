@@ -3,7 +3,7 @@
 # with an MIT license.
 
 # https://hub.docker.com/_/ubuntu
-FROM ubuntu:bionic-20200112
+FROM ubuntu:bionic-20200219
 
 ADD sources.list /etc/apt/sources.list
 COPY bin /tmp/bin
