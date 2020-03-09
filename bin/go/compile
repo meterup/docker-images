@@ -7,7 +7,7 @@ main() {
     local -r sha256="$2"
     local -r arch='linux-amd64'
     local -r url="https://golang.org/dl/go${golang_version}.${arch}.tar.gz"
-    curl --location --output go.tgz "${url}"
+    curl --silent --show-error --location --output go.tgz "${url}"
     echo "${sha256} *go.tgz" | sha256sum --check -
 
     tar --directory=/usr/local -xzf go.tgz

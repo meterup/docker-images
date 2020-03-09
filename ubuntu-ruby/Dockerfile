@@ -31,6 +31,7 @@ ENV CONTAINER_BUILD_DATE=2020-03-09T11:00:00 \
 COPY bin/ruby /tmp/rubybin
 COPY --from=gitbuild /usr/local/git /usr/local/git
 COPY --from=nodebuild /usr/local/node /usr/local/node
+RUN /tmp/rubybin/init-machine
 
 # Some adaptations from https://github.com/drecom/docker-ubuntu-ruby/blob/master/Dockerfile
 # checksum from https://nodejs.org/dist/v12.16.1/SHASUMS256.txt.asc

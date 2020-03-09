@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-set -x
 
 cleanup() {
     apt-get autoremove -y
@@ -16,7 +15,7 @@ main() {
 
     pushd /tmp 2>/dev/null
         if [[ ! -f "$BINARY" ]]; then
-            curl --remote-name --silent --location "https://github.com/git/git/archive/${BINARY}"
+            curl --remote-name --silent --show-error --location "https://github.com/git/git/archive/${BINARY}"
         fi
         unzip -q "$BINARY"
         pushd "${DIRECTORY}" 2>/dev/null
