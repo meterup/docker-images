@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+cleanup() {
+    apt-get autoremove -y
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+}
+
+main() {
+    local -r npm_version="${2}"
+    git clone --branch "v${1}" --depth=1 git://github.com/nodejs/node.git
+    mkdir -p /usr/local/node
+    pushd node
+        ./configure --prefix='/usr/local/node' --dest-os=linux
+        make -j4 && make install
+        export PATH="${PATH}:/usr/local/node/bin"
+        npm install "npm@${npm_version}"
+    popd
+    cleanup
+    /usr/local/node/bin/node --version
+    /usr/local/node/bin/npm --version
+}
+
+main "$@"
