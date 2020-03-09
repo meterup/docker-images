@@ -9,19 +9,12 @@ install_ruby() {
     MAKE_OPTS='-j4' ruby-build "${1}" "${2}"
 }
 
-cleanup() {
-    apt-get autoremove -y
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
-}
-
 main() {
     # declare these at the beginning so we can detect failures early
     local -r ruby_version="${1}"
     local -r ruby_path="${2}"
 
     install_ruby "${ruby_version}" "${ruby_path}"
-    cleanup
 }
 
 main "$@"

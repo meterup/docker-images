@@ -29,6 +29,7 @@ ENV CONTAINER_BUILD_DATE=2020-03-09T11:00:00 \
     PATH="${PATH}:/usr/local/git/bin:/usr/local/node/bin:/usr/local/ruby/bin"
 
 COPY bin/ruby /tmp/rubybin
+COPY bin/common /tmp/commonbin
 COPY --from=gitbuild /usr/local/git /usr/local/git
 COPY --from=nodebuild /usr/local/node /usr/local/node
 RUN /tmp/rubybin/init-machine
@@ -36,6 +37,17 @@ RUN /tmp/rubybin/init-machine
 # Some adaptations from https://github.com/drecom/docker-ubuntu-ruby/blob/master/Dockerfile
 # checksum from https://nodejs.org/dist/v12.16.1/SHASUMS256.txt.asc
 RUN /tmp/rubybin/install-deps
-ENV RUBY_VERSION='2.7.0' \
-    RUBY_PATH='/usr/local/ruby'
-RUN /tmp/rubybin/compile "${RUBY_VERSION}" "${RUBY_PATH}"
+# ruby-build needs PREFIX to be set (see install.sh script)
+RUN export \
+    RUBY_VERSION='2.7.0' \
+    RUBY_PATH='/usr/local/ruby' \
+    PREFIX='/usr/local/ruby' && \
+
+    mkdir -p "${RUBY_PATH}" && \
+    chown -R meter:meter "${RUBY_PATH}" && \
+    sudo --preserve-env=PATH,RUBY_VERSION,RUBY_PATH,PREFIX -H -u meter \
+        bash -c '/tmp/rubybin/compile "${RUBY_VERSION}" "${RUBY_PATH}"' && \
+    /tmp/commonbin/cleanup && \
+
+    unset RUBY_VERSION && \
+    unset PREFIX
