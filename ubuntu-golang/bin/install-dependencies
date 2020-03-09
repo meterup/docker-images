@@ -10,6 +10,7 @@ main() {
     # openssh-client: apmanage generates SSH keys
     # time: reporting command execution time
     # daemontools: envdir
+    # gnupg: necessary for apt-key add
     apt-get install -y --no-install-recommends \
         autoconf \
         ca-certificates \
