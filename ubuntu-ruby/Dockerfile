@@ -19,19 +19,21 @@ COPY --from=gitbuild /usr/local/git /usr/local/git
 RUN /tmp/nodebin/install-deps
 ENV NODE_VERSION=12.16.1 \
     NODE_SHA256='b2d9787da97d6c0d5cbf24c69fdbbf376b19089f921432c5a61aa323bc070bea' \
-    NPM_VERSION=6.14.2
-RUN /tmp/nodebin/compile "${NODE_VERSION}" "${NPM_VERSION}"
+    NPM_VERSION=6.14.2 \
+    YARN_VERSION=1.22.4
+RUN /tmp/nodebin/compile "${NODE_VERSION}" "${NPM_VERSION}" "${YARN_VERSION}"
 
 FROM ubuntu:bionic-20200219 AS rubybuild
 ENV CONTAINER_BUILD_DATE=2020-03-09T11:00:00 \
     TZ=UTC \
     DEBIAN_FRONTEND=noninteractive \
-    PATH="${PATH}:/usr/local/git/bin:/usr/local/node/bin:/usr/local/ruby/bin"
+    PATH="${PATH}:/usr/local/git/bin:/usr/local/node/bin:/usr/local/yarn/bin:/usr/local/ruby/bin"
 
 COPY bin/ruby /tmp/rubybin
 COPY bin/common /tmp/commonbin
 COPY --from=gitbuild /usr/local/git /usr/local/git
 COPY --from=nodebuild /usr/local/node /usr/local/node
+COPY --from=nodebuild /usr/local/yarn /usr/local/yarn
 RUN /tmp/rubybin/init-machine
 
 # Some adaptations from https://github.com/drecom/docker-ubuntu-ruby/blob/master/Dockerfile

@@ -8,19 +8,34 @@ cleanup() {
     rm -rf /var/lib/apt/lists/*
 }
 
+install_yarn() {
+    local -r yarn_version="${1}"
+    local -r tarball="yarn-v${yarn_version}.tar.gz"
+    local -r directory="yarn-v${yarn_version}"
+    # can't use install.sh because we can't control the install location
+    curl --remote-name --silent --show-error --location "https://github.com/yarnpkg/yarn/releases/download/v${yarn_version}/${tarball}"
+    tar zxf "${tarball}"
+    rm -rf /usr/local/yarn
+    mv "${directory}" /usr/local/yarn
+    rm -rf "${tarball}"
+}
+
 main() {
     local -r npm_version="${2}"
+    local -r yarn_version="${3}"
     git clone --branch "v${1}" --depth=1 git://github.com/nodejs/node.git
     mkdir -p /usr/local/node
     pushd node
         ./configure --prefix='/usr/local/node' --dest-os=linux
         make -j4 && make install
         export PATH="${PATH}:/usr/local/node/bin"
-        npm install "npm@${npm_version}"
+        npm install --global "npm@${npm_version}"
+        install_yarn "${yarn_version}"
     popd
     cleanup
     /usr/local/node/bin/node --version
     /usr/local/node/bin/npm --version
+    /usr/local/yarn/bin/yarn --version
 }
 
 main "$@"
