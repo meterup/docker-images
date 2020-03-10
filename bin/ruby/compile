@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Compile Ruby and install bundler and rake.
+# Note, this script should not be run as the root user.
+#
+# Usage:
+#
+# bin/ruby/compile ruby_version ruby_path
+
 set -euo pipefail
 
 install_ruby() {
@@ -9,12 +16,18 @@ install_ruby() {
     MAKE_OPTS='-j4' ruby-build "${1}" "${2}"
 }
 
+install_tools() {
+    gem install --no-document bundler
+    gem install --no-document rake
+}
+
 main() {
     # declare these at the beginning so we can detect failures early
     local -r ruby_version="${1}"
     local -r ruby_path="${2}"
 
     install_ruby "${ruby_version}" "${ruby_path}"
+    install_tools
 }
 
 main "$@"
